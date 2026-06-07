@@ -1,5 +1,5 @@
-import Navbar from '../componenpublic/Navbar';
-import Footer from '../componenpublic/Footer';
+import Navbar from './Navbar';
+import Footer from './Footer';
 
 
 const AppLayout = ({ children }) => {
