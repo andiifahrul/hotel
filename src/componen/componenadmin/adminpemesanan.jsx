@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../services/Supabase';
 import { LayoutDashboard, ShoppingCart, Users, BedDouble, Search } from 'lucide-react';
-import AdminDashboard from '../AdminDashboard';
-import AdminCustomers from '../AdminCustomers';
+import AdminDashboard from './AdminDashboard';
+import AdminCustomers from './AdminCustomers';
 import AdminRoomMonitor from './AdminRoomMonitor';
 import ModalAddOffline from './ModalAddOffline';
 
