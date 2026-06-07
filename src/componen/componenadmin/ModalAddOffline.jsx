@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { supabase } from '../../services/Supabase';
 import { rooms } from '../../pages/Home'; // Mengambil data harga kamar
+import { showAlert } from '../componenpublic/sweetAlert';
 
 const ModalAddOffline = ({ show, onClose, onSuccess, roomClasses, getAvailableRooms }) => {
   const [loading, setLoading] = useState(false);
@@ -45,7 +46,7 @@ const ModalAddOffline = ({ show, onClose, onSuccess, roomClasses, getAvailableRo
 
     // Validasi agar Check-out minimal 1 hari setelah Check-in
     if (new Date(offlineData.check_out) <= new Date(offlineData.check_in)) {
-      alert("Tanggal Check-out harus minimal 1 hari setelah Check-in!");
+      showAlert.warning('Peringatan', 'Tanggal Check-out harus minimal 1 hari setelah Check-in!');
       return;
     }
 
@@ -65,14 +66,14 @@ const ModalAddOffline = ({ show, onClose, onSuccess, roomClasses, getAvailableRo
       ]);
       if (error) throw error;
 
-      alert('Pesanan offline berhasil ditambahkan!');
+      showAlert.success('Berhasil!', 'Pesanan offline berhasil ditambahkan!');
       // Reset form
       setOfflineData({ nama: '', room_title: roomClasses[0]?.title || '', check_in: '', check_out: '', room_number: '' });
       onSuccess(); // Refresh tabel di komponen induk
       onClose();   // Tutup modal
     } catch (error) {
       console.error(error);
-      alert('Gagal menambahkan pesanan offline: ' + error.message);
+      showAlert.error('Gagal!', 'Gagal menambahkan pesanan: ' + error.message);
     } finally {
       setLoading(false);
     }

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../services/Supabase';
+import { showAlert } from '../componen/componenpublic/sweetAlert';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -19,7 +20,7 @@ const Login = () => {
       if (error) throw error;
       navigate('/admin'); // Jika berhasil, arahkan ke admin
     } catch (error) {
-      alert('Gagal login: Email atau Password salah!');
+      showAlert.error('Login Gagal', 'Email atau Password salah!');
     } finally {
       setLoading(false);
     }

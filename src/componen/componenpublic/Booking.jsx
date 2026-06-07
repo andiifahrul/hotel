@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { rooms } from '../../pages/Home'; 
 import { supabase } from '../../services/Supabase';
+import { showAlert } from './sweetAlert';
 
 const BookingPage = () => {
   const location = useLocation();
@@ -35,13 +36,13 @@ const BookingPage = () => {
   const handleOpenModal = (e) => {
     e.preventDefault();
     if (!formData.name || !formData.checkIn || !formData.checkOut || !formData.arrivalTime) {
-      alert("Mohon lengkapi semua data!");
+      showAlert.warning('Oops...', 'Mohon lengkapi semua data form!');
       return;
     }
 
     // Validasi agar Check-out minimal 1 hari setelah Check-in
     if (new Date(formData.checkOut) <= new Date(formData.checkIn)) {
-      alert("Tanggal Check-out harus minimal 1 hari setelah Check-in!");
+      showAlert.warning('Peringatan', 'Tanggal Check-out harus minimal 1 hari setelah Check-in!');
       return;
     }
 
@@ -93,14 +94,14 @@ const handleSubmit = async (e) => {
 
     if (error) throw error;
 
-    alert("Pemesanan berhasil disimpan!");
+    showAlert.success('Berhasil!', 'Pemesanan berhasil disimpan! Kami akan segera memprosesnya.');
     setShowPaymentModal(false);
     setFormData({ name: '', checkIn: '', checkOut: '', arrivalTime: '' });
     setPaymentProof(null); // Reset state file
 
   } catch (err) {
     console.error("Error:", err);
-    alert("Gagal melakukan pemesanan: " + err.message);
+    showAlert.error('Gagal!', 'Terjadi kesalahan: ' + err.message);
   } finally {
     setIsLoading(false);
   }

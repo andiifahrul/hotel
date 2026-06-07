@@ -5,6 +5,7 @@ import AdminDashboard from './AdminDashboard';
 import AdminCustomers from './AdminCustomers';
 import AdminRoomMonitor from './AdminRoomMonitor';
 import ModalAddOffline from './ModalAddOffline';
+import { showAlert } from '../componenpublic/sweetAlert';
 
 const ROOM_CLASSES = [
   { title: "Deluxe Room", prefix: "DLX" },
@@ -39,7 +40,7 @@ const Admin = () => {
       setBookings(data || []);
     } catch (error) {
       console.error('Error fetching bookings:', error.message);
-      alert('Gagal mengambil data pemesanan: ' + error.message);
+      showAlert.error('Gagal', 'Gagal mengambil data pemesanan: ' + error.message);
     } finally {
       setLoading(false);
     }
@@ -72,7 +73,7 @@ const Admin = () => {
       );
     } catch (error) {
       console.error('Error updating status:', error.message);
-      alert(`Gagal mengupdate status: ${error.message}`);
+      showAlert.error('Error', `Gagal mengupdate status: ${error.message}`);
     }
   };
 
@@ -103,14 +104,18 @@ const Admin = () => {
       setBookings(bookings.map(b => b.id === id ? { ...b, room_number: roomNumber } : b));
     } catch (error) {
       console.error(error);
-      alert(`Gagal menugaskan kamar: ${error.message}`);
+      showAlert.error('Error', `Gagal menugaskan kamar: ${error.message}`);
     }
   };
 
-  // Fungsi untuk Logout
+  // Fungsi untuk Logout dengan konfirmasi
   const handleLogout = async () => {
-    await supabase.auth.signOut();
-    window.location.href = '/login'; // Refresh dan arahkan ke halaman login
+    showAlert.confirm('Konfirmasi', 'Apakah Anda yakin ingin keluar?', 'Ya, Keluar!').then(async (result) => {
+      if (result.isConfirmed) {
+        await supabase.auth.signOut();
+        window.location.href = '/login';
+      }
+    });
   };
 
   // Filter data untuk tab Orderan Kostumer
