@@ -3,6 +3,7 @@ import AppLayout from './componen/componenpublic/AppLayout';
 import Home from './pages/Home';
 import Book from './pages/Booking';
 import Admin from './pages/Admin';
+import Login from './pages/Login';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -13,6 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<AppLayout><Home /></AppLayout>} />
         <Route path="/booking" element={<AppLayout><Book /></AppLayout>} />
+        <Route path="/login" element={<Login />} />
         <Route path="/admin" element={<Admin />} />
         {/* Tambahkan route lain di sini */}
       </Routes>

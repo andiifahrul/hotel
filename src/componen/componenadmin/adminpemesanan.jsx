@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../services/Supabase';
-import { LayoutDashboard, ShoppingCart, Users, BedDouble, Search } from 'lucide-react';
+import { LayoutDashboard, ShoppingCart, Users, BedDouble, Search, LogOut } from 'lucide-react';
 import AdminDashboard from './AdminDashboard';
 import AdminCustomers from './AdminCustomers';
 import AdminRoomMonitor from './AdminRoomMonitor';
@@ -105,6 +105,12 @@ const Admin = () => {
       console.error(error);
       alert(`Gagal menugaskan kamar: ${error.message}`);
     }
+  };
+
+  // Fungsi untuk Logout
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    window.location.href = '/login'; // Refresh dan arahkan ke halaman login
   };
 
   // Filter data untuk tab Orderan Kostumer
@@ -277,6 +283,11 @@ const Admin = () => {
           </button>
           <button className="btn text-start w-100 p-3" style={{ color: activeTab === 'rooms' ? 'var(--white)' : '#ccc', backgroundColor: activeTab === 'rooms' ? 'var(--accent)' : 'transparent', border: 'none', borderRadius: '10px' }} onClick={() => setActiveTab('rooms')}>
             <BedDouble size={20} className="me-3" /> Pantau Kamar
+          </button>
+          
+          <hr style={{ borderColor: 'var(--border)', opacity: 0.2 }} className="my-2" />
+          <button className="btn text-start w-100 p-3 text-danger" style={{ border: 'none', borderRadius: '10px' }} onClick={handleLogout}>
+            <LogOut size={20} className="me-3" /> Keluar
           </button>
         </div>
       </div>
