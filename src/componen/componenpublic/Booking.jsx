@@ -199,9 +199,12 @@ const handleSubmit = async (e) => {
             <h4 className="mb-3">Selesaikan Pembayaran</h4>
             <p className="text-muted">Silakan lakukan pembayaran ke QRIS berikut:</p>
 
-
-            {/* Ganti src dengan gambar QRIS yang sesuai */}
-            <img src="/path-ke-gambar-qris.jpg" alt="QRIS" style={{ width: '100%', marginBottom: '15px' }} />
+            <div 
+              className="d-flex align-items-center justify-content-center bg-light border text-muted mb-3" 
+              style={{ width: '100%', height: '200px', borderRadius: '10px' }}
+            >
+              [Gambar QRIS Anda Di Sini]
+            </div>
             
             <div className="mb-3 text-start">
               <label className="form-label">Upload Bukti Transfer</label>
