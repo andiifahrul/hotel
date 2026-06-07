@@ -9,7 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
-    <Router>
+    <Router basename={import.meta.env.BASE_URL}>
       <Routes>
         <Route path="/" element={<AppLayout><Home /></AppLayout>} />
         <Route path="/booking" element={<AppLayout><Book /></AppLayout>} />
