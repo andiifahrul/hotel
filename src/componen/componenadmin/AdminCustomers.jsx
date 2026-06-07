@@ -1,14 +1,21 @@
-import React from 'react';
-import { Download } from 'lucide-react';
+import React, { useState } from 'react';
+import { Download, Search } from 'lucide-react';
 
 const AdminCustomers = ({ bookings }) => {
+  const [searchTerm, setSearchTerm] = useState('');
+
   // Ambil data booking yang sedang dikonfirmasi atau sudah selesai (check-out)
   const confirmedBookings = bookings.filter(b => b.status === 'confirmed' || b.status === 'completed');
+
+  // Filter tambahan berdasarkan pencarian nama
+  const filteredBookings = confirmedBookings.filter(b => 
+    b.nama?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   // Fungsi untuk Export data ke format CSV
   const handleExportCSV = () => {
     const headers = ['ID', 'Nama', 'Kamar', 'Check-in', 'Check-out', 'Total Harga', 'Status'];
-    const csvData = confirmedBookings.map(b => [
+    const csvData = filteredBookings.map(b => [
       b.id,
       `"${b.nama || ''}"`,
       `"${b.room_title || ''}"`,
@@ -38,9 +45,21 @@ const AdminCustomers = ({ bookings }) => {
     <div>
       <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
         <h2 style={{ color: 'var(--primary)', margin: 0 }}>Data Costumer</h2>
-        <button className="btn" style={{ backgroundColor: 'var(--accent)', color: 'var(--white)' }} onClick={handleExportCSV}>
-          <Download size={18} className="me-2" /> Export ke Excel (CSV)
-        </button>
+        <div className="d-flex gap-2 flex-nowrap">
+          <div className="input-group" style={{ maxWidth: '250px' }}>
+            <span className="input-group-text bg-white"><Search size={18} className="text-muted" /></span>
+            <input 
+              type="text" 
+              className="form-control border-start-0 ps-0" 
+              placeholder="Cari nama tamu..." 
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+          <button className="btn" style={{ backgroundColor: 'var(--accent)', color: 'var(--white)' }} onClick={handleExportCSV}>
+            <Download size={18} className="me-2" /> Export Excel
+          </button>
+        </div>
       </div>
       <div className="card shadow-sm p-3 p-md-4 border-0" style={{ borderRadius: '15px' }}>
         <div className="table-responsive">
@@ -55,12 +74,12 @@ const AdminCustomers = ({ bookings }) => {
               </tr>
             </thead>
             <tbody>
-              {confirmedBookings.length === 0 ? (
+              {filteredBookings.length === 0 ? (
                 <tr>
-                  <td colSpan="5" className="text-center py-4">Belum ada data costumer.</td>
+                  <td colSpan="5" className="text-center py-4">{searchTerm ? 'Nama tamu tidak ditemukan.' : 'Belum ada data costumer.'}</td>
                 </tr>
               ) : (
-                confirmedBookings.map((booking) => (
+                filteredBookings.map((booking) => (
                   <tr key={booking.id}>
                     <td className="fw-bold">{booking.nama}</td>
                     <td>{booking.room_title}</td>

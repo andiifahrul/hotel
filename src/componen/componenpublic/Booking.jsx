@@ -38,6 +38,13 @@ const BookingPage = () => {
       alert("Mohon lengkapi semua data!");
       return;
     }
+
+    // Validasi agar Check-out minimal 1 hari setelah Check-in
+    if (new Date(formData.checkOut) <= new Date(formData.checkIn)) {
+      alert("Tanggal Check-out harus minimal 1 hari setelah Check-in!");
+      return;
+    }
+
     setShowPaymentModal(true);
   };
 
@@ -112,6 +119,15 @@ const handleSubmit = async (e) => {
     return 0;
   };
 
+  // Menentukan batas minimal tanggal hari ini dan besoknya untuk form
+  const today = new Date().toISOString().split('T')[0];
+  let minCheckOut = today;
+  if (formData.checkIn) {
+    const checkInDate = new Date(formData.checkIn);
+    checkInDate.setDate(checkInDate.getDate() + 1);
+    minCheckOut = checkInDate.toISOString().split('T')[0];
+  }
+
   return (
     <div className="container-fluid px-3 py-5" style={{ marginTop: '80px' }}>
       <h2 className="text-center mb-5" style={{ color: 'var(--primary)' }}>Formulir Pemesanan</h2>
@@ -142,11 +158,11 @@ const handleSubmit = async (e) => {
               <div className="row">
                 <div className="col-6 mb-3">
                   <label className="form-label">Check-in</label>
-                  <input type="date" name="checkIn" className="form-control" min={new Date().toISOString().split('T')[0]} onChange={handleInputChange} required />
+                  <input type="date" name="checkIn" className="form-control" min={today} onChange={handleInputChange} required />
                 </div>
                 <div className="col-6 mb-3">
                   <label className="form-label">Check-out</label>
-                  <input type="date" name="checkOut" className="form-control" min={formData.checkIn} onChange={handleInputChange} required />
+                  <input type="date" name="checkOut" className="form-control" min={minCheckOut} onChange={handleInputChange} required />
                 </div>
               </div>
 

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../services/Supabase';
-import { LayoutDashboard, ShoppingCart, Users, BedDouble } from 'lucide-react';
+import { LayoutDashboard, ShoppingCart, Users, BedDouble, Search } from 'lucide-react';
 import AdminDashboard from './AdminDashboard';
 import AdminCustomers from './AdminCustomers';
 import AdminRoomMonitor from './AdminRoomMonitor';
+import ModalAddOffline from './ModalAddOffline';
 
 const ROOM_CLASSES = [
   { title: "Deluxe Room", prefix: "DLX" },
@@ -16,6 +17,8 @@ const Admin = () => {
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
   const [activeTab, setActiveTab] = useState('dashboard'); // State untuk tab aktif
+  const [showOfflineModal, setShowOfflineModal] = useState(false);
+  const [searchOrder, setSearchOrder] = useState('');
 
   useEffect(() => {
     fetchBookings();
@@ -104,6 +107,11 @@ const Admin = () => {
     }
   };
 
+  // Filter data untuk tab Orderan Kostumer
+  const filteredOrders = bookings.filter(b => 
+    b.nama?.toLowerCase().includes(searchOrder.toLowerCase())
+  );
+
   if (loading) {
     return (
       <div className="container-fluid px-3 py-5" style={{ minHeight: '60vh' }}>
@@ -115,7 +123,28 @@ const Admin = () => {
   // Tab: Orderan Kostumer
   const renderOrders = () => (
     <div>
-      <h2 className="mb-4" style={{ color: 'var(--primary)' }}>Orderan Kostumer</h2>
+      <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+        <h2 style={{ color: 'var(--primary)', margin: 0 }}>Orderan Kostumer</h2>
+        <div className="d-flex gap-2 flex-nowrap">
+          <div className="input-group" style={{ maxWidth: '250px' }}>
+            <span className="input-group-text bg-white"><Search size={18} className="text-muted" /></span>
+            <input 
+              type="text" 
+              className="form-control border-start-0 ps-0" 
+              placeholder="Cari nama tamu..." 
+              value={searchOrder}
+              onChange={(e) => setSearchOrder(e.target.value)}
+            />
+          </div>
+          <button 
+            className="btn" 
+            style={{ backgroundColor: 'var(--accent)', color: 'var(--white)' }}
+            onClick={() => setShowOfflineModal(true)}
+          >
+            + Pesanan Offline
+          </button>
+        </div>
+      </div>
       <div className="card shadow-sm p-3 p-md-4 border-0" style={{ borderRadius: '15px' }}>
         <div className="table-responsive">
           <table className="table table-hover align-middle text-nowrap">
@@ -134,12 +163,12 @@ const Admin = () => {
               </tr>
             </thead>
             <tbody>
-              {bookings.length === 0 ? (
+              {filteredOrders.length === 0 ? (
                 <tr>
-                  <td colSpan="10" className="text-center py-4">Belum ada data pemesanan.</td>
+                  <td colSpan="10" className="text-center py-4">{searchOrder ? 'Nama tamu tidak ditemukan.' : 'Belum ada data pemesanan.'}</td>
                 </tr>
               ) : (
-                bookings.map((booking) => (
+                filteredOrders.map((booking) => (
                   <tr key={booking.id}>
                     <td>{booking.id}</td>
                     <td>{booking.nama}</td>
@@ -148,13 +177,15 @@ const Admin = () => {
                     <td>{booking.check_out}</td>
                     <td>{booking.total_price?.toLocaleString('id-ID')}</td>
                     <td>
-                      {booking.payment_url ? (
+                      {booking.payment_url && booking.payment_url.startsWith('http') ? (
                         <button 
                           onClick={() => setSelectedImage(booking.payment_url)} 
                           className="btn btn-sm btn-outline-primary"
                         >
                           Lihat Bukti
                         </button>
+                      ) : booking.payment_url ? (
+                        <span className="badge bg-secondary">{booking.payment_url}</span>
                       ) : (
                         <span className="text-muted">Tidak ada</span>
                       )}
@@ -300,6 +331,15 @@ const Admin = () => {
           </div>
         </div>
       )}
+
+      {/* Modal / Overlay for Tambah Pesanan Offline */}
+      <ModalAddOffline 
+        show={showOfflineModal} 
+        onClose={() => setShowOfflineModal(false)} 
+        onSuccess={fetchBookings} 
+        roomClasses={ROOM_CLASSES} 
+        getAvailableRooms={getAvailableRooms}
+      />
     </div>
   );
 };
