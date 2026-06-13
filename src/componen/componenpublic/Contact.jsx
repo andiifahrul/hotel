@@ -22,7 +22,7 @@ const Contact = () => {
               <Phone className="me-3 mt-1" style={{ color: 'var(--accent)' }} />
               <div>
                 <p className="fw-bold mb-0">Telepon / WhatsApp</p>
-                <span className="text-muted">+62 812 3456 7890</span>
+                <span className="text-muted">082194110729</span>
               </div>
             </div>
 
@@ -30,7 +30,7 @@ const Contact = () => {
               <Mail className="me-3 mt-1" style={{ color: 'var(--accent)' }} />
               <div>
                 <p className="fw-bold mb-0">Email</p>
-                <span className="text-muted">hello@hotelsangsurya.com</span>
+                <span className="text-muted">hotelsangsurya@gmail.com</span>
               </div>
             </div>
 
@@ -38,7 +38,7 @@ const Contact = () => {
               <MapPin className="me-3 mt-1" style={{ color: 'var(--accent)' }} />
               <div>
                 <p className="fw-bold mb-0">Alamat</p>
-                <span className="text-muted">Jl. Pariwisata Indah No. 123, Pusat Kota, Indonesia</span>
+                <span className="text-muted">Jl. Poros Bantaeng - Bulukumba, Bintarore, Kec. Ujung Bulu, Kabupaten Bulukumba</span>
               </div>
             </div>
           </div>
