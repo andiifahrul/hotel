@@ -1,3 +1,4 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
 import heroBg from '../../asset/hero.jpg';
 
@@ -6,21 +7,26 @@ const Hero = () => {
     <section
       className="hero-section d-flex align-items-center"
       style={{
-        // Menambahkan gambar sebagai background
+        // Menambahkan gambar sebagai background dengan efek gelap
         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${heroBg})`,
-        // Properti background untuk memastikan gambar tertutup sempurna
+        
+        // Properti agar background responsif sempurna di semua ukuran layar
         backgroundSize: 'cover',
-        backgroundPosition: 'center',
+        backgroundPosition: 'center center',
         backgroundRepeat: 'no-repeat',
-        // Menyesuaikan tinggi section agar mencakup seluruh viewport, atau sesuai kebutuhan
+        
+        // Menambahkan attachment scroll agar aman dan tidak bug di beberapa browser HP
+        backgroundAttachment: 'scroll', 
+        
+        // Tinggi minimum layar
         minHeight: '100vh', 
       }}
     >
       <div className="container text-center">
         <div className="row justify-content-center">
           <div className="col-lg-8">
-            {/* Headline - Warna teks mungkin perlu disesuaikan agar kontras dengan background */}
-            <h1 className="display-3 fw-bold text-white mb-4">
+            {/* Headline */}
+            <h1 className="display-3 fw-bold text-white mb-4" style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}>
               Pengalaman Menginap yang{' '}
               <span style={{ color: '#C5A059' }}>Tak Terlupakan</span> di{' '}
               <span style={{ color: '#C5A059' }}>Wisma Sang Surya</span>
@@ -31,7 +37,7 @@ const Hero = () => {
               Pilihan tepat untuk liburan maupun perjalanan bisnis Anda.
             </p>
 
-            <div className="d-flex justify-content-center gap-3">
+            <div className="d-flex flex-column flex-sm-row justify-content-center gap-3">
               <Link to="/booking" className="btn btn-warning btn-lg px-4">
                 Pesan Sekarang
               </Link>
@@ -47,4 +53,4 @@ const Hero = () => {
   );
 };
 
-export default Hero;
+export default Hero; // Atau export default Hero; sesuaikan dengan eksport file Anda
