@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap');
+
+:root {
+  --primary: #1A2B48;
+  --accent: #C5A059;
+  --bg: #F9F7F2;
+  --text: #333333;
+  --white: #FFFFFF;
+  --border: rgba(26, 43, 72, 0.1);
+  
+  /* Font Families */
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Montserrat', sans-serif;
+}
+* {
+  box-sizing: border-box; /* Memastikan padding tidak menambah lebar elemen */
+}
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body); /* Terapkan ke body */
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading); /* Terapkan ke heading */
+  color: var(--primary);
+}
+
+/* Style untuk link yang aktif */
+.navbar-nav .nav-link.active {
+  color: var(--accent) !important;
+  font-weight: 600;
+  
+}
+/* Pastikan warna teks normal putih */
+.nav-link {
+  color: #FFFFFF !important;
+  cursor: pointer;
+  
+}
+
+.nav-link.active {
+  color: #C5A059 !important; 
+  font-weight: bold;
+}
+
+.hero-section {
+  height: 90vh; /* Hampir satu layar penuh */
+  background: linear-gradient(rgba(26, 43, 72, 0.6), rgba(26, 43, 72, 0.6)), 
+              url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; /* Memberikan efek parallax yang elegan */
+}
+
+/* Memastikan teks terlihat mewah dengan font yang sudah kita setting sebelumnya */
+.hero-section h1 {
+  font-family: var(--font-heading);
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.card-title {
+  color: var(--primary);
+}
+
+.card {
+  max-width: 100%; /* Memastikan card tidak lebih lebar dari layar */
+}
+
+.form-select, .form-control {
+  width: 100%; /* Memastikan input form selalu pas dengan lebar card */
+}
